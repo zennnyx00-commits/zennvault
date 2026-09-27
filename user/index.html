@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZennVault — File Distribution</title>
+<meta name="description" content="Find and download files instantly, or unlock premium access.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="brand" aria-label="ZennVault home">
+      <svg class="brand__mark" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2 L4 13H11L9 22L20 9H13L15 2Z" fill="url(#boltGrad)"/>
+        <defs>
+          <linearGradient id="boltGrad" x1="4" y1="2" x2="20" y2="22" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#2FD6C0"/>
+            <stop offset="1" stop-color="#F6B93B"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <span class="brand__name">ZennVault</span>
+    </a>
+
+    <label class="search" for="searchInput">
+      <svg class="search__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+        <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <input type="text" id="searchInput" data-i18n-placeholder="searchPlaceholder" autocomplete="off">
+    </label>
+  </div>
+</header>
+
+<section class="hero">
+  <p class="hero__tagline" data-i18n="tagline"></p>
+</section>
+
+<main class="file-grid" id="fileGrid" aria-live="polite">
+  <p class="status-text" id="statusText" data-i18n="loading"></p>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+
+    <div class="footer-col footer-col--brand">
+      <span class="footer-brand">ZennVault</span>
+      <p class="footer-copyright">
+        <span id="copyYear"></span> ZennVault. <span data-i18n="footerRights"></span>
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <span class="footer-col__label" data-i18n="footerContact"></span>
+      <a class="footer-link" href="mailto:zennnyx00@gmail.com">zennnyx00@gmail.com</a>
+      <a class="footer-link" href="https://www.tiktok.com/@zennlonevyn" target="_blank" rel="noopener">
+        <span data-i18n="footerTiktok"></span> · @zennlonevyn
+      </a>
+    </div>
+
+    <div class="footer-col">
+      <span class="footer-col__label" data-i18n="footerSupport"></span>
+      <div class="footer-badges">
+        <a class="badge badge--saweria" href="https://saweria.co/" target="_blank" rel="noopener">Saweria</a>
+        <a class="badge badge--bmc" href="https://www.buymeacoffee.com/" target="_blank" rel="noopener">Buy Me a Coffee</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<div class="modal-overlay" id="premiumModal" hidden>
+  <div class="modal-card">
+    <button class="modal-close" id="modalCloseBtn" aria-label="Close">&times;</button>
+    <h3 data-i18n="modalTitle"></h3>
+    <p id="modalBody" data-i18n="modalBody"></p>
+    <button class="btn btn--premium" id="modalOkBtn" data-i18n="modalButton"></button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -18,7 +18,7 @@ const AUTH_FLAG_KEY = "zv_admin_authed";
 // admin actions apart from public reads. Client-side "secrets" are
 // always visible to anyone who opens dev tools — for real protection,
 // swap this for a server-issued session token once you add real auth.
-const ADMIN_DEMO_KEY = "zv-admin-9x7k2m";
+const ADMIN_DEMO_KEY = "demo-admin-key-change-me";
 
 /* ---------------------------------------------------------
    Login page logic (only runs if #loginForm exists)
@@ -89,9 +89,9 @@ async function deleteFile(id) {
   return res.json();
 }
 
-function adminRowHTML(file) {
+function adminRowHTML(file, index = 0) {
   return `
-    <div class="admin-file-row" data-id="${file.id}">
+    <div class="admin-file-row" style="--stagger: ${index}" data-id="${file.id}">
       <div class="admin-file-row__body">
         <p class="admin-file-row__title">${file.nama_file}</p>
         <p class="admin-file-row__desc">${file.deskripsi || ""}</p>
@@ -113,7 +113,7 @@ async function loadFiles() {
     CURRENT_FILES = data.files || [];
     countEl.textContent = `${CURRENT_FILES.length} file${CURRENT_FILES.length === 1 ? "" : "s"}`;
     listEl.innerHTML = CURRENT_FILES.length
-      ? CURRENT_FILES.map(adminRowHTML).join("")
+      ? CURRENT_FILES.map((file, i) => adminRowHTML(file, i)).join("")
       : `<p class="status-text">No files yet — add your first one above.</p>`;
   } catch (err) {
     listEl.innerHTML = `<p class="status-text">Couldn't load files: ${err.message}</p>`;

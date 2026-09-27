@@ -160,9 +160,9 @@ async function fetchFiles() {
 let ALL_FILES = [];
 let PENDING_TIKTOK_REDIRECT = false;
 
-function fileCardHTML(file) {
+function fileCardHTML(file, index = 0) {
   return `
-    <article class="file-card" data-title="${escapeHTML(file.nama_file.toLowerCase())}">
+    <article class="file-card" style="--stagger: ${index}" data-title="${escapeHTML(file.nama_file.toLowerCase())}">
       <div class="file-card__body">
         <h3 class="file-card__title">${escapeHTML(file.nama_file)}</h3>
         <p class="file-card__desc">${escapeHTML(file.deskripsi || "")}</p>
@@ -195,7 +195,7 @@ function renderFiles(files, emptyMessage = T.noResults) {
     grid.innerHTML = `<p class="status-text">${emptyMessage}</p>`;
     return;
   }
-  grid.innerHTML = files.map(fileCardHTML).join("");
+  grid.innerHTML = files.map((file, i) => fileCardHTML(file, i)).join("");
 }
 
 /* ---------------------------------------------------------

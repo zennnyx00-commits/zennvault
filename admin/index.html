@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZennVault Admin — Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="admin-header">
+  <div class="admin-header__inner">
+    <div class="auth-brand auth-brand--sm">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2 L4 13H11L9 22L20 9H13L15 2Z" fill="url(#boltGrad2)"/>
+        <defs>
+          <linearGradient id="boltGrad2" x1="4" y1="2" x2="20" y2="22" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#2FD6C0"/><stop offset="1" stop-color="#F6B93B"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <span>ZennVault <em>Admin</em></span>
+    </div>
+    <button class="btn btn--ghost" id="logoutBtn">Log out</button>
+  </div>
+</header>
+
+<main class="admin-main">
+
+  <section class="panel">
+    <h2 class="panel__title">Add a new file</h2>
+    <form id="fileForm" class="file-form">
+      <label>
+        File name
+        <input type="text" id="fName" placeholder="e.g. Premium Lightroom Presets Pack" required>
+      </label>
+      <label>
+        Short description
+        <textarea id="fDescription" rows="3" placeholder="One or two sentences describing the file" required></textarea>
+      </label>
+      <label>
+        Safelinku URL
+        <input type="url" id="fSafelink" placeholder="https://safelinku.com/..." required>
+      </label>
+
+      <div class="file-form__actions">
+        <button type="submit" class="btn btn--premium" id="submitBtn">Add file</button>
+      </div>
+      <p class="form-status" id="formStatus"></p>
+    </form>
+  </section>
+
+  <section class="panel">
+    <div class="panel__title-row">
+      <h2 class="panel__title">Uploaded files</h2>
+      <span class="panel__count" id="fileCount"></span>
+    </div>
+    <div id="adminFileList" class="admin-file-list">
+      <p class="status-text">Loading files...</p>
+    </div>
+  </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

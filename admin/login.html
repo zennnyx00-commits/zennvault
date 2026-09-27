@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZennVault Admin — Sign in</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-body">
+
+<div class="auth-card">
+  <div class="auth-brand">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2 L4 13H11L9 22L20 9H13L15 2Z" fill="url(#boltGrad)"/>
+      <defs>
+        <linearGradient id="boltGrad" x1="4" y1="2" x2="20" y2="22" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#2FD6C0"/><stop offset="1" stop-color="#F6B93B"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <span>ZennVault <em>Admin</em></span>
+  </div>
+
+  <p class="auth-sub">Sign in to manage your file listings.</p>
+
+  <form id="loginForm" class="auth-form">
+    <label>
+      Username
+      <input type="text" id="username" autocomplete="username" required>
+    </label>
+    <label>
+      Password
+      <input type="password" id="password" autocomplete="current-password" required>
+    </label>
+    <p class="auth-error" id="authError" hidden>Invalid username or password.</p>
+    <button type="submit" class="btn btn--premium auth-submit">Sign in</button>
+  </form>
+
+  <p class="auth-note">
+    Demo login only — see <code>script.js</code> for how to wire this up to a real
+    auth check on the server before going live.
+  </p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

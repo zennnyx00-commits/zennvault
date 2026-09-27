@@ -18,7 +18,7 @@ const AUTH_FLAG_KEY = "zv_admin_authed";
 // admin actions apart from public reads. Client-side "secrets" are
 // always visible to anyone who opens dev tools — for real protection,
 // swap this for a server-issued session token once you add real auth.
-const ADMIN_DEMO_KEY = "demo-admin-key-change-me";
+const ADMIN_DEMO_KEY = "zv-admin-9x7k2m";
 
 /* ---------------------------------------------------------
    Login page logic (only runs if #loginForm exists)

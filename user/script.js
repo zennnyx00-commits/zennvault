@@ -25,6 +25,9 @@ const I18N = {
     footerContact: "Contact",
     footerSupport: "Support this project",
     footerTiktok: "Follow on TikTok",
+    updatedToday: "Updated today",
+    updatedYesterday: "Updated yesterday",
+    updatedDaysAgo: "Updated {n} days ago",
   },
   zh: { // Traditional Chinese — covers Taiwan; swap to zh-Hans copy for mainland China if you want a script split
     searchPlaceholder: "搜尋檔案...",
@@ -42,6 +45,9 @@ const I18N = {
     footerContact: "聯絡方式",
     footerSupport: "支持這個專案",
     footerTiktok: "在 TikTok 上追蹤",
+    updatedToday: "今天更新",
+    updatedYesterday: "昨天更新",
+    updatedDaysAgo: "{n} 天前更新",
   },
   vi: {
     searchPlaceholder: "Tìm kiếm tệp tin...",
@@ -59,6 +65,9 @@ const I18N = {
     footerContact: "Liên hệ",
     footerSupport: "Ủng hộ dự án này",
     footerTiktok: "Theo dõi trên TikTok",
+    updatedToday: "Cập nhật hôm nay",
+    updatedYesterday: "Cập nhật hôm qua",
+    updatedDaysAgo: "Cập nhật {n} ngày trước",
   },
   id: {
     searchPlaceholder: "Cari nama file...",
@@ -76,6 +85,9 @@ const I18N = {
     footerContact: "Kontak",
     footerSupport: "Dukung proyek ini",
     footerTiktok: "Ikuti di TikTok",
+    updatedToday: "Diperbarui hari ini",
+    updatedYesterday: "Diperbarui kemarin",
+    updatedDaysAgo: "Diperbarui {n} hari lalu",
   },
 };
 
@@ -125,18 +137,27 @@ const SAMPLE_FILES_FALLBACK = [
     nama_file: "Premium Lightroom Presets Pack",
     deskripsi: "120 cinematic color presets for Adobe Lightroom, mobile & desktop.",
     url_safelinku: "https://safelinku.com/example-1",
+    kategori: "ZIP",
+    ukuran_file: "38 MB",
+    created_at: new Date().toISOString(),
   },
   {
     id: "sample-2",
     nama_file: "Pro Video Editor — Modded",
     deskripsi: "Unlocked version of a popular mobile video editor, no watermark.",
     url_safelinku: "https://safelinku.com/example-2",
+    kategori: "APK",
+    ukuran_file: "64 MB",
+    created_at: new Date(Date.now() - 86400000).toISOString(),
   },
   {
     id: "sample-3",
     nama_file: "Complete UI Kit for Figma",
     deskripsi: "200+ components, dark & light variants, ready for handoff.",
     url_safelinku: "https://safelinku.com/example-3",
+    kategori: "Featured",
+    ukuran_file: "12 MB",
+    created_at: new Date(Date.now() - 3 * 86400000).toISOString(),
   },
 ];
 
@@ -160,15 +181,42 @@ async function fetchFiles() {
 let ALL_FILES = [];
 let PENDING_TIKTOK_REDIRECT = false;
 
+function formatUpdated(createdAt) {
+  const then = new Date(createdAt);
+  if (isNaN(then)) return "";
+  const days = Math.floor((Date.now() - then.getTime()) / 86400000);
+  if (days <= 0) return T.updatedToday;
+  if (days === 1) return T.updatedYesterday;
+  return T.updatedDaysAgo.replace("{n}", days);
+}
+
 function fileCardHTML(file, index = 0) {
+  const metaParts = [];
+  if (file.ukuran_file) metaParts.push(escapeHTML(file.ukuran_file));
+  const updated = formatUpdated(file.created_at);
+  if (updated) metaParts.push(updated);
+
   return `
     <article class="file-card" style="--stagger: ${index}" data-title="${escapeHTML(file.nama_file.toLowerCase())}">
-      <div class="file-card__body">
-        <h3 class="file-card__title">${escapeHTML(file.nama_file)}</h3>
-        <p class="file-card__desc">${escapeHTML(file.deskripsi || "")}</p>
-      </div>
+      ${file.kategori ? `
+      <div class="file-card__badges">
+        <span class="badge-tag">${escapeHTML(file.kategori)}</span>
+      </div>` : ""}
+
+      <h3 class="file-card__title">${escapeHTML(file.nama_file)}</h3>
+
+      ${metaParts.length ? `
+      <div class="file-card__meta">
+        ${metaParts.map((p) => `<span>${p}</span>`).join('<span class="meta-dot">&bull;</span>')}
+      </div>` : ""}
+
+      <p class="file-card__desc">${escapeHTML(file.deskripsi || "")}</p>
+
       <div class="file-card__actions">
         <a class="btn btn--ghost" href="${escapeAttr(file.url_safelinku)}" target="_blank" rel="noopener noreferrer">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
           ${T.downloadFree}
         </a>
         <button class="btn btn--premium" data-file-title="${escapeAttr(file.nama_file)}">

@@ -14,6 +14,7 @@ const I18N = {
     tagline: "Find the file you need. Grab it instantly.",
     loading: "Loading files...",
     noResults: "No files match your search. Try a different keyword.",
+    emptyCatalog: "No files are available right now — check back soon.",
     fetchError: "Couldn't load the file list. Please refresh the page.",
     downloadFree: "Free Download",
     buyPremium: "Get Instant Access",
@@ -30,6 +31,7 @@ const I18N = {
     tagline: "尋找你需要的檔案，立即取得。",
     loading: "檔案載入中...",
     noResults: "找不到符合的檔案，請嘗試其他關鍵字。",
+    emptyCatalog: "目前沒有可用的檔案，請稍後再來查看。",
     fetchError: "無法載入檔案清單，請重新整理頁面。",
     downloadFree: "免費下載",
     buyPremium: "立即取得存取權",
@@ -46,6 +48,7 @@ const I18N = {
     tagline: "Tìm file bạn cần. Tải ngay lập tức.",
     loading: "Đang tải danh sách file...",
     noResults: "Không tìm thấy tệp phù hợp. Hãy thử từ khóa khác.",
+    emptyCatalog: "Hiện chưa có tệp nào — vui lòng quay lại sau.",
     fetchError: "Không thể tải danh sách file. Vui lòng tải lại trang.",
     downloadFree: "Tải miễn phí",
     buyPremium: "Truy cập ngay",
@@ -62,6 +65,7 @@ const I18N = {
     tagline: "Cari file yang kamu butuhkan, langsung dapat.",
     loading: "Memuat daftar file...",
     noResults: "Tidak ada file yang cocok. Coba kata kunci lain.",
+    emptyCatalog: "Belum ada file yang tersedia — coba lagi nanti.",
     fetchError: "Gagal memuat daftar file. Coba muat ulang halaman.",
     downloadFree: "Download Gratis",
     buyPremium: "Beli Akses Langsung",
@@ -141,8 +145,9 @@ async function fetchFiles() {
     const res = await fetch("/api/files");
     if (!res.ok) throw new Error("Bad response from /api/files");
     const data = await res.json();
-    if (Array.isArray(data.files) && data.files.length > 0) return data.files;
-    return SAMPLE_FILES_FALLBACK;
+    // A genuinely empty table is a valid result — show it as empty,
+    // don't paper over it with the fallback samples below.
+    return Array.isArray(data.files) ? data.files : [];
   } catch (err) {
     console.warn("[ZennVault] Falling back to sample data:", err.message);
     return SAMPLE_FILES_FALLBACK;
@@ -184,10 +189,10 @@ function escapeHTML(str = "") {
 }
 function escapeAttr(str = "") { return escapeHTML(str); }
 
-function renderFiles(files) {
+function renderFiles(files, emptyMessage = T.noResults) {
   const grid = document.getElementById("fileGrid");
   if (files.length === 0) {
-    grid.innerHTML = `<p class="status-text">${T.noResults}</p>`;
+    grid.innerHTML = `<p class="status-text">${emptyMessage}</p>`;
     return;
   }
   grid.innerHTML = files.map(fileCardHTML).join("");
@@ -255,7 +260,7 @@ async function init() {
   setupPremiumModal();
 
   ALL_FILES = await fetchFiles();
-  renderFiles(ALL_FILES);
+  renderFiles(ALL_FILES, T.emptyCatalog);
 }
 
 document.addEventListener("DOMContentLoaded", init);

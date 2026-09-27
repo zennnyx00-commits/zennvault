@@ -45,7 +45,7 @@ module.exports = async function handler(req, res) {
   };
 
   if (req.method === "POST") {
-    const { nama_file, deskripsi, url_safelinku } = req.body || {};
+    const { nama_file, deskripsi, url_safelinku, kategori, ukuran_file } = req.body || {};
     if (!nama_file || !url_safelinku) {
       return res.status(400).json({ error: "nama_file dan url_safelinku wajib diisi" });
     }
@@ -62,6 +62,8 @@ module.exports = async function handler(req, res) {
           nama_file,
           deskripsi: deskripsi || "",
           url_safelinku,
+          kategori: kategori || null,
+          ukuran_file: ukuran_file || null,
         }),
       });
 

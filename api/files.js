@@ -33,7 +33,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const response = await fetch(
-      `${SUPABASE_URL}/rest/v1/files?select=id,nama_file,deskripsi,url_safelinku,created_at&order=created_at.desc`,
+      `${SUPABASE_URL}/rest/v1/files?select=id,nama_file,deskripsi,url_safelinku,kategori,ukuran_file,created_at&order=created_at.desc`,
       {
         headers: {
           apikey: SUPABASE_ANON_KEY,

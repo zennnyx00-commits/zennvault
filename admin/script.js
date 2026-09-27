@@ -18,7 +18,7 @@ const AUTH_FLAG_KEY = "zv_admin_authed";
 // admin actions apart from public reads. Client-side "secrets" are
 // always visible to anyone who opens dev tools — for real protection,
 // swap this for a server-issued session token once you add real auth.
-const ADMIN_DEMO_KEY = "zv-admin-9x7k2m";
+const ADMIN_DEMO_KEY = "demo-admin-key-change-me";
 
 /* ---------------------------------------------------------
    Login page logic (only runs if #loginForm exists)
@@ -35,7 +35,7 @@ function initLoginPage() {
 
     if (username === DEMO_CREDENTIALS.username && password === DEMO_CREDENTIALS.password) {
       sessionStorage.setItem(AUTH_FLAG_KEY, "true");
-      window.location.href = "index.html";
+      window.location.href = "/admin/index.html";
     } else {
       errorEl.hidden = false;
     }
@@ -49,7 +49,7 @@ function initLoginPage() {
    --------------------------------------------------------- */
 function guardDashboard() {
   if (sessionStorage.getItem(AUTH_FLAG_KEY) !== "true") {
-    window.location.href = "login.html";
+    window.location.href = "/admin/login.html";
     return false;
   }
   return true;
@@ -131,7 +131,7 @@ function initDashboard() {
 
   document.getElementById("logoutBtn").addEventListener("click", () => {
     sessionStorage.removeItem(AUTH_FLAG_KEY);
-    window.location.href = "login.html";
+    window.location.href = "/admin/login.html";
   });
 
   const form = document.getElementById("fileForm");

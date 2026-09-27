@@ -18,7 +18,7 @@ const AUTH_FLAG_KEY = "zv_admin_authed";
 // admin actions apart from public reads. Client-side "secrets" are
 // always visible to anyone who opens dev tools — for real protection,
 // swap this for a server-issued session token once you add real auth.
-const ADMIN_DEMO_KEY = "zv-admin-9x7k2m";
+const ADMIN_DEMO_KEY = "demo-admin-key-change-me";
 
 /* ---------------------------------------------------------
    Login page logic (only runs if #loginForm exists)
@@ -92,9 +92,10 @@ async function deleteFile(id) {
 function adminRowHTML(file, index = 0) {
   return `
     <div class="admin-file-row" style="--stagger: ${index}" data-id="${file.id}">
+      ${file.kategori ? `<span class="admin-file-row__badge">${file.kategori}</span>` : ""}
       <div class="admin-file-row__body">
         <p class="admin-file-row__title">${file.nama_file}</p>
-        <p class="admin-file-row__desc">${file.deskripsi || ""}</p>
+        <p class="admin-file-row__desc">${file.deskripsi || ""}${file.ukuran_file ? ` · ${file.ukuran_file}` : ""}</p>
       </div>
       <div class="admin-file-row__actions">
         <button class="btn btn--danger" data-action="delete">Delete</button>
@@ -142,6 +143,8 @@ function initDashboard() {
       nama_file: document.getElementById("fName").value.trim(),
       deskripsi: document.getElementById("fDescription").value.trim(),
       url_safelinku: document.getElementById("fSafelink").value.trim(),
+      kategori: document.getElementById("fKategori").value.trim(),
+      ukuran_file: document.getElementById("fUkuran").value.trim(),
     };
 
     try {
